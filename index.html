@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Recommendation</title>
+</head>
+<body>
+    <h1>Sentiment-Based Product Recommendation</h1>
+
+    <!-- User Recommendation Form -->
+    <form action="/predict" method="POST">
+        <label for="userName">Enter User:</label>
+        <input type="text" name="userName" required>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <!-- Error or info message -->
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    <!-- Recommendations Table -->
+    {% if row_data is defined and row_data %}
+        <h2>Recommended Products:</h2>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    {% for col in column_names %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in row_data %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <hr>
+
+    <!-- Sentiment Prediction Form -->
+    <h2>Predict Sentiment of Review</h2>
+    <form action="/predictSentiment" method="POST">
+        <label for="reviewText">Enter Review:</label><br>
+        <textarea name="reviewText" rows="4" cols="50" required></textarea><br><br>
+        <button type="submit">Predict Sentiment</button>
+    </form>
+
+    {% if sentiment is defined %}
+        <h3>Predicted Sentiment: {{ 'Positive' if sentiment == 1 else 'Negative' }}</h3>
+    {% endif %}
+</body>
+</html>
